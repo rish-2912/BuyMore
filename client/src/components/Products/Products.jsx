@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, styled } from '@mui/material'
 import React from 'react'
 import Items from '../Items/Items'
 const navData = [
@@ -12,13 +12,21 @@ const navData = [
     { url: 'https://rukminim1.flixcart.com/flap/128/128/image/71050627a56b4693.png?q=100', text: 'Travel' },
     { url: 'https://rukminim1.flixcart.com/flap/128/128/image/dff3f7adcf3a90c6.png?q=100', text: 'Beauty, Toys & More' }
 ];
+const Productsbox = styled('div')(({ theme }) => ({
+    display: 'flex',
+    width: '100%',
+    margin: '1% 5%',
+    [theme.breakpoints.down('md')]: {
+        display: 'none'
 
+    }
+}))
 const Products = () => {
     return (
         <div style={{ display: 'flex', boxShadow: '0 1px 1px 0 rgb(0 0 0 / 16%)' }}>
-            <Box style={{ display: 'flex', width: '100%', margin: '1% 5%' }}>
+            <Productsbox>
                 {navData.map((item) => (<Items key={item.text} link={item.url} text={item.text} />))}
-            </Box>
+            </Productsbox>
         </div>
     )
 }

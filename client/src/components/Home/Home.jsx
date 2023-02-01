@@ -1,12 +1,27 @@
-import { Box } from '@mui/material'
+import { Box, styled } from '@mui/material'
 import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProducts } from '../../redux/actions/productActions'
 import Products from '../Products/Products'
 import Banner from './Banner'
+import Midsection from './Midsection'
 import Slide from './Slide'
-
-
+const Leftcomponent = styled(Box)(({ theme }) => ({
+    width: '85%',
+    [theme.breakpoints.down('md')]: {
+        width: '100%'
+    }
+}))
+const Rightcomponent = styled(Box)(({ theme }) => ({
+    width: '204.012px',
+    background: 'white',
+    height: '283.55px',
+    margin: '10px 0 0 10px',
+    padding: '10px',
+    [theme.breakpoints.down('md')]: {
+        display: 'none'
+    }
+}))
 const Home = () => {
     const { products } = useSelector(state => state.getProducts)
     const adURL = 'https://rukminim1.flixcart.com/flap/464/708/image/633789f7def60050.jpg?q=70';
@@ -20,13 +35,14 @@ const Home = () => {
             <div style={{ margin: '0.5% 0.5% 0 0.5%', background: '#F2F2F2' }}>
                 <Banner />
                 <Box style={{ display: 'flex', width: '100%' }}>
-                    <Box style={{ width: '85%' }}>
+                    <Leftcomponent>
                         <Slide products={products} title='Deal of the Day' state={1} />
-                    </Box>
-                    <Box style={{ width: '204.012px', background: 'white', height: '283.55px', margin: '10px 0 0 10px', padding: '10px' }}>
+                    </Leftcomponent>
+                    <Rightcomponent>
                         <img src={adURL} style={{ width: '100%', height: '100%' }}></img>
-                    </Box>
+                    </Rightcomponent>
                 </Box>
+                <Midsection />
                 <Slide products={products} title='Trending offers' />
                 <Slide products={products} title='Top Selection' />
                 <Slide products={products} title="Season's top picks" />

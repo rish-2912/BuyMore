@@ -2,10 +2,19 @@ import React from 'react'
 import Carousel from "react-multi-carousel";
 import { styled } from '@mui/material'
 import "react-multi-carousel/lib/styles.css";
-const Image = styled('img')({
+import './carousel.css'
+const Image = styled('img')(({ theme }) => ({
     width: '100vw',
-    height: '270px'
-})
+    height: '270px',
+    [theme.breakpoints.down('md')]: {
+        objectFit: 'cover',
+        height: '150px'
+    },
+    // [theme.breakpoints.down('sm')]: {
+    //     objectFit: 'contain',
+    //     height: '100%'
+    // }
+}))
 const bannerData = [
     { id: 1, url: 'https://rukminim1.flixcart.com/flap/3376/560/image/d117a62eb5fbb8e1.jpg?q=50' },
     { id: 2, url: 'https://rukminim1.flixcart.com/flap/3376/560/image/57267a180af306fe.jpg?q=50' },

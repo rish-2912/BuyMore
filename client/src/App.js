@@ -3,14 +3,22 @@ import Home from "./components/Home/Home";
 import { Box } from '@mui/material'
 import DataProvider, { DataContext } from "./context/DataProvider";
 import { useContext } from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Details from "./components/Details/Details";
+import Cart from "./components/Cart/Cart";
 function App() {
-
   return (
     <DataProvider className="App">
-      <Header />
-      <Box style={{ marginTop: '55px', background: 'rgb(242, 242, 242)' }}>
-        <Home />
-      </Box>
+      <BrowserRouter>
+        <Header />
+        <Box style={{ marginTop: '55px', background: 'rgb(242, 242, 242)' }}>
+          <Routes>
+            <Route path='/' element={<Home />}></Route>
+            <Route path='/product/:id' element={<Details />}></Route>
+            <Route path='/cart' element={<Cart />}></Route>
+          </Routes>
+        </Box>
+      </BrowserRouter>
 
     </DataProvider>
   );

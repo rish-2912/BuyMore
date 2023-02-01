@@ -3,32 +3,59 @@ import React from 'react'
 import Carousel from "react-multi-carousel";
 import Countdown from 'react-countdown'
 import "react-multi-carousel/lib/styles.css";
-const Comp = styled(Box)`
-    margin-top:10px;
-    background:white;
+import { Link } from 'react-router-dom';
+const Comp = styled(Box)(({ theme }) => ({
+    marginTop: '10px',
+    background: 'white',
+    // [theme.breakpoints.down('md')]: {
+    //     height: '370px'
+    // }
+}))
 
-`
-const Deal = styled(Box)`
-    padding:10px 15px;
-    display:flex;
-    // border:1px solid black;
-`
-const Remaining = styled(Box)`
-    display:flex;
-    margin:auto 0;
-    margin-left:30px;
-    align-items:center;
-`
-const ViewButton = styled(Button)`
-    margin-left:auto;
-    background-color:#2874f0;
-    border-radius:2px;
-    font-size:13px;
-`
-const Image = styled('img')({
+
+const Deal = styled(Box)(({ theme }) => ({
+    padding: '10px 15px',
+    display: 'flex',
+}))
+const Heading = styled(Typography)(({ theme }) => ({
+    margin: 'auto 0',
+    fontFamily: 'emoji',
+    paddingBottom: '3px',
+    fontWeight: 'bold',
+    fontSize: '20px',
+    [theme.breakpoints.down('sm')]: {
+        fontSize: '17px',
+        // marginRight: '17px'
+    }
+}))
+const Remaining = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    margin: 'auto 0',
+    marginLeft: '30px',
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+        fontSize: '13.5px',
+        marginLeft: '10px'
+    }
+}))
+const ViewButton = styled(Button)(({ theme }) => ({
+    marginLeft: 'auto',
+    backgroundColor: '#2874f0',
+    borderRadius: '2px',
+    fontSize: '13px',
+    [theme.breakpoints.down('sm')]: {
+        fontSize: '11px'
+    }
+}))
+
+
+const Image = styled('img')(({ theme }) => ({
     width: 'auto',
-    height: '150px'
-})
+    height: '150px',
+    [theme.breakpoints.down('md')]: {
+        height: '100px'
+    }
+}))
 const Item = styled(Box)`
     display:flex;
     flex-direction:column;
@@ -62,7 +89,7 @@ const Slide = ({ products, title, state }) => {
     return (
         <Comp>
             <Deal>
-                <Typography style={{ margin: 'auto 0', fontFamily: 'emoji', paddingBottom: '3px', fontWeight: 'bold', fontSize: '20px' }}>{title}</Typography>
+                <Heading>{title}</Heading>
                 {state === 1 && <Remaining>
                     <img src={timerURL} style={{ margin: 'auto 0', width: '19px' }}></img>
                     <Countdown date={Date.now() + 5.04e+7} renderer={renderer} />
@@ -81,14 +108,18 @@ const Slide = ({ products, title, state }) => {
                 itemClass='carousel-item-padding-40-px'
                 containerClass='carousel-container'
             >
-                {products.map(product => (
-                    <Item textAlign='center' style={{ padding: '10px 5px' }}>
-                        <Image src={product.url}></Image>
-                        <Text style={{ fontWeight: '600', color: '#212121' }}>{product.title.shortTitle}</Text>
-                        <Text style={{ color: 'green' }}>{product.discount}</Text>
-                        <Text style={{ color: '#212121', opacity: '0.6' }}>{product.tagline}</Text>
-                    </Item>
-                ))}
+                {
+                    products.map(product => (
+                        <Link to={`product/${product.id}`} style={{ textDecoration: 'none' }}>
+                            <Item textAlign='center' style={{ padding: '10px 5px' }}>
+                                <Image src={product.url}></Image>
+                                <Text style={{ fontWeight: '600', color: '#212121' }}>{product.title.shortTitle}</Text>
+                                <Text style={{ color: 'green' }}>{product.discount}</Text>
+                                <Text style={{ color: '#212121', opacity: '0.6' }}>{product.tagline}</Text>
+                            </Item>
+                        </Link >
+                    ))
+                }
             </Carousel>
         </Comp>
     )

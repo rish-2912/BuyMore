@@ -102,7 +102,7 @@ const Login = ({ open, setOpen }) => {
                 setValidation({ ...validation, ...ok })
                 console.log(validation)
             }
-            if (err?.response?.data?.message?.includes('username')) {
+            else if (err?.response?.data?.message?.includes('username')) {
                 console.log(err.response)
                 setExist({ ...checkExist, user: true })
             }
@@ -186,10 +186,10 @@ const Login = ({ open, setOpen }) => {
                         <div style={{ position: 'relative', top: '5%' }}>
                             <Typography style={{ textAlign: 'left', margin: '2% auto', fontSize: '0.9rem', fontStyle: 'italic' }}>By continuing,you agree to BuyMore's Terms of Use and Privacy Policy.</Typography>
                             <Button style={{ background: '#1976d2', color: 'white', width: '100%', margin: '0 auto' }} onClick={() => loginUser()}>Login</Button>
-                            <Typography style={{ textAlign: 'center', position: 'relative', top: '2.5%' }}>OR</Typography>
-                            <Button style={{ background: 'white', color: '#1976d2', width: '100%', margin: '0 auto', position: 'relative', top: '5%', boxShadow: '0.5px 0.5px 1.5px black' }}> Request OTP</Button>
+                            {/* <Typography style={{ textAlign: 'center', position: 'relative', top: '2.5%' }}>OR</Typography>
+                            <Button style={{ background: 'white', color: '#1976d2', width: '100%', margin: '0 auto', position: 'relative', top: '5%', boxShadow: '0.5px 0.5px 1.5px black' }}> Request OTP</Button> */}
                         </div>
-                        <Typography style={{ textAlign: 'center', marginTop: '10rem' }}><a href='#' style={{ textDecoration: 'none', color: '#2874f0' }} onClick={() => { handleTrigger() }}>New To BuyMore? create an account</a></Typography>
+                        <Typography style={{ textAlign: 'center', marginTop: '15rem' }}><a href='#' style={{ textDecoration: 'none', color: '#2874f0' }} onClick={() => { handleTrigger() }}>New To BuyMore? create an account</a></Typography>
                     </div>
                 </div>
                 :
