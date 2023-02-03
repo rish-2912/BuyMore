@@ -10,8 +10,10 @@ const fassured = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion
 const Container = styled(Grid)(({ theme }) => ({
     background: 'white',
     display: 'flex',
+    height: '685px',
     [theme.breakpoints.down('md')]: {
-        margin: '0'
+        margin: '0',
+        height: '100%'
     }
 }))
 const Right = styled(Grid)`
@@ -20,7 +22,7 @@ const Right = styled(Grid)`
 `
 const DetailBox = styled(Box)(({ theme }) => ({
     [theme.breakpoints.down('sm')]: {
-        overflow: 'hidden',
+        // overflow: 'hidden',
         background: '#f2f2f2'
     }
 }))

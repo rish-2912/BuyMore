@@ -3,10 +3,12 @@ import { FlashOn as Flash } from '@mui/icons-material'
 import { Box, Button, Alert, AlertTitle, styled } from '@mui/material'
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../../redux/actions/cartActions'
 import { useState } from 'react'
 import { DataContext } from '../../context/DataProvider'
+import { payUsingPaytm } from '../../service/api'
+import { post } from '../../utils/paytm'
 const Left = styled(Box)(({ theme }) => ({
     minWidth: '40%',
     padding: '40px 0 0 80px',
@@ -54,15 +56,33 @@ const ActionItem = ({ product }) => {
     const dispatch = useDispatch()
     const [quantity, setQuantity] = useState(1)
     const [cart, setCart] = useState(false)
+    const { cartItems } = useSelector(state => state.cart)
     const addItemToCart = () => {
         if (!account) {
             setCart(true)
             setTimeout(() => { setCart(false) }, 3000)
         }
         else {
-            // console.log(product.id)
             dispatch(addToCart(product?.id, quantity))
             navigate('/cart')
+        }
+    }
+    const buyItems = async (data) => {
+        let res = await payUsingPaytm({ amount: data, email: 'jainrishabh0607@gmail.com' })
+        console.log(res)
+        let information = {
+            action: 'https://securegw-stage.paytm.in/order/process',
+            params: res
+        }
+        post(information)
+    }
+    const goToCart = () => {
+        navigate('/cart')
+    }
+    let ok = true;
+    for (let obj of cartItems) {
+        if (obj.data.id === product?.id) {
+            ok = false
         }
     }
     const { account } = useContext(DataContext)
@@ -75,8 +95,10 @@ const ActionItem = ({ product }) => {
                 <Box style={{ padding: '15px 20px', border: '1px solid #f0f0f0', width: '90%' }}>
                     <Image src={product?.detailUrl}></Image>
                 </Box>
-                <StyledButton variant='contained' style={{ marginRight: 10, background: '#ff9f00', marginLeft: 10 }} onClick={() => addItemToCart()}><Cart />Add to Cart</StyledButton>
-                <StyledButton variant='contained' style={{ background: '#fb541b' }}><Flash />Buy Now</StyledButton>
+                {ok ? <StyledButton variant='contained' style={{ marginRight: 10, background: '#ff9f00', marginLeft: 10 }} onClick={() => addItemToCart()}><Cart />Add to Cart</StyledButton> :
+                    <StyledButton variant='contained' style={{ marginRight: 10, background: '#ff9f00', marginLeft: 10 }} onClick={() => goToCart()}><Cart />Go to Cart</StyledButton>
+                }
+                <StyledButton variant='contained' style={{ background: '#fb541b' }} onClick={() => buyItems(product.price.cost)}><Flash />Buy Now</StyledButton>
             </Left >
         </>
     )

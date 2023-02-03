@@ -21,3 +21,12 @@ export const authenticateLogin = async (data) => {
         return err
     }
 }
+export const payUsingPaytm = async (data) => {
+    try {
+        const response = await axios.post(`${URL}/payment`, data)
+        return response.data
+    }
+    catch (err) {
+        console.log(err)
+    }
+}

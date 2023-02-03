@@ -4,9 +4,10 @@ import { ADD_TO_CART } from '../constants/cartConstants'
 const URL = "http://localhost:8000"
 export const addToCart = (id, quantity) => async (dispatch) => {
     try {
-        const data = await axios.get(`${URL}/product/${id}`)
-        // console.log(data)
-        dispatch({ type: ADD_TO_CART, payload: { ...data, quantity } })
+        // console.log(quantity)
+        const dat = await axios.get(`${URL}/product/${id}`)
+        dat.data.quantity = quantity
+        dispatch({ type: ADD_TO_CART, payload: { ...dat } })
     }
     catch (err) {
         dispatch({ type: ADD_TO_CART_ERROR, payload: err.message })
