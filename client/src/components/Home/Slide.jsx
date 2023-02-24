@@ -3,7 +3,7 @@ import React from 'react'
 import Carousel from "react-multi-carousel";
 import Countdown from 'react-countdown'
 import "react-multi-carousel/lib/styles.css";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const Comp = styled(Box)(({ theme }) => ({
     marginTop: '10px',
     background: 'white',
@@ -81,20 +81,28 @@ const responsive = {
         items: 1
     }
 };
-const Slide = ({ products, title, state }) => {
+const Slide = ({ products, title, heading, state }) => {
+    const nav = useNavigate()
     const timerURL = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/timer_a73398.svg';
     const renderer = ({ hours, minutes, seconds }) => {
         return <Box variant='span'>{hours}:{minutes}:{seconds} left</Box>
     }
+    const clickHandler = () => {
+        nav(`/${title}`)
+    }
+    let filteredProducts = products.filter((product) => product.category === title.toLowerCase())
+    if (state === 1) {
+        filteredProducts = products
+    }
     return (
         <Comp>
             <Deal>
-                <Heading>{title}</Heading>
+                <Heading>{heading}</Heading>
                 {state === 1 && <Remaining>
                     <img src={timerURL} style={{ margin: 'auto 0', width: '19px' }}></img>
                     <Countdown date={Date.now() + 5.04e+7} renderer={renderer} />
                 </Remaining>}
-                <ViewButton variant='contained'>View All</ViewButton>
+                {state !== 1 && <ViewButton variant='contained' onClick={clickHandler}>View All</ViewButton>}
             </Deal>
             <Divider />
             <Carousel
@@ -109,7 +117,7 @@ const Slide = ({ products, title, state }) => {
                 containerClass='carousel-container'
             >
                 {
-                    products.map(product => (
+                    filteredProducts.map(product => (
                         <Link to={`product/${product.id}`} style={{ textDecoration: 'none' }}>
                             <Item textAlign='center' style={{ padding: '10px 5px' }}>
                                 <Image src={product.url}></Image>

@@ -42,9 +42,14 @@ const Details = () => {
                 </Grid>
                 <Right item lg={8} md={8} sm={8} xs={12}>
                     <Typography>{product?.title?.longTitle}</Typography>
-                    <Typography style={{ marginTop: 5, color: '#878787', fontSize: 14 }}>
-                        8 Ratings and 1 Reviews
-                    </Typography>
+                    <Box style={{ display: 'flex' }}>
+                        <Box style={{ backgroundColor: '#388E3C', marginTop: 3, padding: '2px 4px 2px 6px', color: 'white', fontSize: 12, borderRadius: '3px' }}>
+                            {product?.rating}★
+                        </Box>
+                        <Typography style={{ marginTop: 5, color: '#878787', fontSize: 14, marginLeft: '5px' }}>
+                            {product?.review} Reviews
+                        </Typography>
+                    </Box>
                     <Typography>
                         <Box component='span' style={{ fontSize: 28 }}>₹{product?.price?.cost}</Box>&nbsp;&nbsp;&nbsp;
                         <Box component='span' style={{ color: '#878787' }}><strike>₹{product?.price?.mrp}</strike></Box>&nbsp;&nbsp;&nbsp;

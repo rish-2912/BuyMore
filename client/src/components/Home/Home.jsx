@@ -36,18 +36,19 @@ const Home = () => {
                 <Banner />
                 <Box style={{ display: 'flex', width: '100%' }}>
                     <Leftcomponent>
-                        <Slide products={products} title='Deal of the Day' state={1} />
+                        <Slide products={products} title='Deal of the Day' heading='Deal of the Day' state={1} />
                     </Leftcomponent>
                     <Rightcomponent>
                         <img src={adURL} style={{ width: '100%', height: '100%' }}></img>
                     </Rightcomponent>
                 </Box>
                 <Midsection />
-                <Slide products={products} title='Trending offers' />
-                <Slide products={products} title='Kitchen' />
-                <Slide products={products} title='Mobiles' />
-                <Slide products={products} title='Sports and Fitness' />
-                <Slide products={products} title="Laptops" />
+                <Slide products={products} title='Electronics' heading='Electronics' />
+                <Slide products={products} title='Kitchen' heading='Kitchen' />
+                <Slide products={products} title='Mobiles' heading='Mobiles' />
+                <Slide products={products} title='Sports' heading='Sports and Fitness' />
+                <Slide products={products} title="Laptops" heading='Laptops' />
+                <Slide products={products} title="Furniture" heading='Furniture' />
             </div>
         </Fragment>
     )
