@@ -44,8 +44,10 @@ const Home = () => {
                 </Box>
                 <Midsection />
                 <Slide products={products} title='Trending offers' />
-                <Slide products={products} title='Top Selection' />
-                <Slide products={products} title="Season's top picks" />
+                <Slide products={products} title='Kitchen' />
+                <Slide products={products} title='Mobiles' />
+                <Slide products={products} title='Sports and Fitness' />
+                <Slide products={products} title="Laptops" />
             </div>
         </Fragment>
     )

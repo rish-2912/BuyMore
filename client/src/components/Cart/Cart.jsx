@@ -1,5 +1,5 @@
-import { Box, Button, Typography, styled, Table, TableRow, TableBody, TableCell } from '@mui/material'
-import React from 'react'
+import { Box, Button, Typography, styled, Table, TableRow, TableBody, TableCell, AlertTitle, Alert } from '@mui/material'
+import React, { useState } from 'react'
 import { useContext } from 'react'
 import { useSelector } from 'react-redux'
 import { DataContext } from '../../context/DataProvider'
@@ -47,8 +47,21 @@ const MainCart = styled(Box)(({ theme }) => ({
         padding: '0px'
     }
 }))
+const Notification = styled(Alert)(({ theme }) => ({
+    position: 'fixed',
+    zIndex: '10',
+    width: '20%',
+    right: '5px',
+    top: '5px',
+    [theme.breakpoints.down('md')]: {
+        height: '36px',
+        width: '199px'
+    }
+}))
 const Cart = () => {
     const { cartItems } = useSelector(state => state.cart)
+    const { account } = useContext(DataContext)
+    const [cart, setCart] = useState(false)
     let actualPrice = 0;
     let dis = 0;
     let total = 0;
@@ -60,16 +73,25 @@ const Cart = () => {
         }
     }
     const buyItems = async (total) => {
-        let res = await payUsingPaytm({ amount: total, email: 'jainrishabh0607@gmail.com' })
-        console.log(res)
-        let information = {
-            action: 'https://securegw-stage.paytm.in/order/process',
-            params: res
+        if (!account) {
+            setCart(true)
+            setTimeout(() => { setCart(false) }, 3000)
         }
-        post(information)
+        else {
+            let res = await payUsingPaytm({ amount: total, email: 'jainrishabh0607@gmail.com' })
+            console.log(res)
+            let information = {
+                action: 'https://securegw-stage.paytm.in/order/process',
+                params: res
+            }
+            post(information)
+        }
     }
     return (
         <>
+            {cart ? <Notification severity="error">
+                <AlertTitle>Login to Place Order</AlertTitle>
+            </Notification> : <></>}
             {
                 cartItems.length !== 0 ?
                     <MainCart>

@@ -39,21 +39,19 @@ const CustomButtons = () => {
         }
     }
     const clickHandler = () => {
-        if (!account) {
+        // if (!account) {
 
-            setCart(true)
-            setTimeout(() => { setCart(false) }, 3000)
-        }
-        else {
-            navigate('/cart')
-        }
+        //     setCart(true)
+        //     setTimeout(() => { setCart(false) }, 3000)
+        // }
+        navigate('/cart')
     }
     return (
         <HeaderBox>
             {account ? <Profile account={account} setAccount={setAccount} /> : <Button varient='contained' style={{ color: "#1976d2", background: 'white', marginTop: 'auto', marginBottom: 'auto', padding: '2px 40px', borderRadius: '0' }} onClick={() => openDialog()}>Login</Button>}
-            {cart ? <Notification severity="error">
+            {/* {cart ? <Notification severity="error">
                 <AlertTitle>Login to access cart</AlertTitle>
-            </Notification> : <></>}
+            </Notification> : <></>} */}
             <Typography style={{ marginTop: 'auto', marginBottom: 'auto', marginLeft: '7%' }}>Become a Seller</Typography>
             <ShoppingBox style={{ marginTop: 'auto', marginBottom: 'auto', marginLeft: '7%', cursor: 'pointer' }} onClick={() => clickHandler()}>
                 <ShoppingCartIcon />

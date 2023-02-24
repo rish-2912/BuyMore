@@ -58,23 +58,27 @@ const ActionItem = ({ product }) => {
     const [cart, setCart] = useState(false)
     const { cartItems } = useSelector(state => state.cart)
     const addItemToCart = () => {
+        // if (!account) {
+        //     setCart(true)
+        //     setTimeout(() => { setCart(false) }, 3000)
+        // }
+        dispatch(addToCart(product?.id, quantity))
+        navigate('/cart')
+    }
+    const buyItems = async (data) => {
         if (!account) {
             setCart(true)
             setTimeout(() => { setCart(false) }, 3000)
         }
         else {
-            dispatch(addToCart(product?.id, quantity))
-            navigate('/cart')
+            let res = await payUsingPaytm({ amount: data, email: 'jainrishabh0607@gmail.com' })
+            console.log(res)
+            let information = {
+                action: 'https://securegw-stage.paytm.in/order/process',
+                params: res
+            }
+            post(information)
         }
-    }
-    const buyItems = async (data) => {
-        let res = await payUsingPaytm({ amount: data, email: 'jainrishabh0607@gmail.com' })
-        console.log(res)
-        let information = {
-            action: 'https://securegw-stage.paytm.in/order/process',
-            params: res
-        }
-        post(information)
     }
     const goToCart = () => {
         navigate('/cart')
@@ -89,7 +93,7 @@ const ActionItem = ({ product }) => {
     return (
         <>
             {cart ? <Notification severity="error">
-                <AlertTitle>Login to access cart</AlertTitle>
+                <AlertTitle>Login to Place Order</AlertTitle>
             </Notification> : <></>}
             <Left>
                 <Box style={{ padding: '15px 20px', border: '1px solid #f0f0f0', width: '90%' }}>
