@@ -1,31 +1,65 @@
 import { CheckBox } from '@mui/icons-material'
 import { Checkbox, FormControlLabel, FormGroup, Tab, Tabs, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import RangeSlider from './RangeSlider'
 import BasicTabs from './Tabs'
+import axios from 'axios'
+import { DataContext } from '../../context/DataProvider'
 
 const Filters = () => {
     const [values, setValues] = useState([500, 30000])
-    const [rate, setRate] = useState(1)
+    const [rate, setRate] = useState([])
     const { name } = useParams()
+    const { account,setAccount } = useContext(DataContext)
     let products = useSelector(state => state.getProducts)
     products = products.products
     // console.log(products)
+    useEffect(()=>{
+        const req=async()=>{
+            try{
+                const res=await axios.get('http://localhost:8000',{
+                    withCredentials:true
+                })
+                // console.log(res);
+                if(res.data.status==='success'){
+                    // console.log(res.data.User.firstName);
+                    setAccount(res.data.User.firstName);
+                }
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+        req()
+    },[])
     const clickHandler = (e) => {
         setRate(prev => {
-            if (e.target.value < prev) {
-                return e.target.value
+            if (prev.includes(e.target.value)) {
+                return prev.filter((n) => n !== e.target.value)
+
             }
-            return prev
+            return [...prev, e.target.value]
+
         })
     }
     let filteredProducts = []
     for (let i = 0; i < products.length; i++) {
-        if ((products[i].category === name.toLowerCase()) && (products[i].price.mrp >= values[0] && products[i].price.mrp <= values[1]) && products[i].rating >= rate) {
-            filteredProducts.push(products[i])
+        if ((products[i].category === name.toLowerCase()) && (products[i].price.mrp >= values[0] && products[i].price.mrp <= values[1])) {
+            if (rate.length === 0) {
+                filteredProducts.push(products[i])
+                continue
+            }
+            else {
+                for (let j = 0; j < rate.length; j++) {
+                    if (products[i].rating >= rate[j]) {
+                        filteredProducts.push(products[i])
+                        break
+                    }
+                }
+            }
         }
     }
     // console.log(filteredProducts)

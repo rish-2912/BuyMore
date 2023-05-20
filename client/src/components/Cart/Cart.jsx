@@ -1,5 +1,5 @@
 import { Box, Button, Typography, styled, Table, TableRow, TableBody, TableCell, AlertTitle, Alert } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useContext } from 'react'
 import { useSelector } from 'react-redux'
 import { DataContext } from '../../context/DataProvider'
@@ -8,6 +8,7 @@ import cartempty from '../../assets/cartempty.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { payUsingPaytm } from '../../service/api'
 import { post } from '../../utils/paytm'
+import axios from 'axios'
 const CartBox = styled(Box)(({ theme }) => ({
     background: 'white',
     boxShadow: '0 1px 1px 0 rgb(0 0 0 / 20%)',
@@ -60,8 +61,26 @@ const Notification = styled(Alert)(({ theme }) => ({
 }))
 const Cart = () => {
     const { cartItems } = useSelector(state => state.cart)
-    const { account } = useContext(DataContext)
+    const { account,setAccount } = useContext(DataContext)
     const [cart, setCart] = useState(false)
+    useEffect(()=>{
+        const req=async()=>{
+            try{
+                const res=await axios.get('http://localhost:8000',{
+                    withCredentials:true
+                })
+                // console.log(res);
+                if(res.data.status==='success'){
+                    // console.log(res.data.User.firstName);
+                    setAccount(res.data.User.firstName);
+                }
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+        req()
+    },[])
     let actualPrice = 0;
     let dis = 0;
     let total = 0;

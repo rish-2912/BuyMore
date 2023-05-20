@@ -6,9 +6,15 @@ import router from './routes/route.js'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import { v4 as uuid } from 'uuid'
+import cookieParser from 'cookie-parser'
+dotenv.config({path:'.env'});
+// console.log(process.env);
 const app = express()
-dotenv.config()
-app.use(cors())
+app.use(cors({
+    credentials:true,
+    origin:true
+}))
+app.use(cookieParser())
 app.use(bodyParser.json({ extended: true }))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/', router)
@@ -16,7 +22,7 @@ const PORT = 8000
 const USERNAME = process.env.DB_USERNAME
 const PASSWORD = process.env.DB_PASSWORD
 Connection(USERNAME, PASSWORD)
-app.listen(PORT, () => { console.log(`Server running on PORT ${PORT}`) })
+app.listen(PORT, () => { console.log(`Server running on PORT ${PORT}`) });
 DefaultData()
 export let paytmMerchantKey = process.env.PAYTM_MERCHANT_KEY
 export let paytmParams = {};

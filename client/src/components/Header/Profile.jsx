@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Menu, MenuItem } from '@mui/material'
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { useState } from 'react'
+import Cookies from 'js-cookie';
 const Profile = ({ account, setAccount }) => {
     const [open, setOpen] = useState(false)
     const clickHandler = (event) => {
@@ -11,6 +12,8 @@ const Profile = ({ account, setAccount }) => {
         setOpen(false)
     }
     const logout = () => {
+        // document.cookie = 'yourCookieName=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        Cookies.remove('jwt');
         setAccount('')
     }
     return (

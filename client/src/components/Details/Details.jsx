@@ -1,11 +1,13 @@
 
 import { Box, Button, Typography, styled, Grid } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { getProductDetails } from '../../redux/actions/productActions'
 import ActionItem from './ActionItem'
 import ProductDetail from './ProductDetail'
+import DataProvider, { DataContext } from '../../context/DataProvider'
+import axios from 'axios'
 const fassured = 'https://static-assets-web.flixcart.com/www/linchpin/fk-cp-zion/img/fa_62673a.png'
 const Container = styled(Grid)(({ theme }) => ({
     background: 'white',
@@ -30,6 +32,25 @@ const Details = () => {
     const dispatch = useDispatch()
     const { id } = useParams()
     const { loading, product } = useSelector(state => state.getProductDetails)
+    const {setAccount}=useContext(DataContext);
+    useEffect(()=>{
+        const req=async()=>{
+            try{
+                const res=await axios.get('http://localhost:8000',{
+                    withCredentials:true
+                })
+                // console.log(res);
+                if(res.data.status==='success'){
+                    // console.log(res.data.User.firstName);
+                    setAccount(res.data.User.firstName);
+                }
+            }
+            catch(err){
+                console.log(err);
+            }
+        }
+        req()
+    },[])
     useEffect(() => {
         if (product && id != product.id)
             dispatch(getProductDetails(id))
